@@ -1,0 +1,22 @@
+Approximate hints: <v,s>=l+e
+
+Kyber128
+m=n=128
+q=3329
+s_coe \in CBD_3
+v_coe \in CBD_3
+e \in N_2 ∩ [-3*sigma, 3*sigma]
+
+Kyber256
+m=n=256
+q=3329
+s_coe \in CBD_3
+v_coe \in CBD_3
+e \in N_2 ∩ [-3*sigma, 3*sigma]
+
+Kyber512
+m=n=512
+q=3329
+s_coe \in CBD_3
+v_coe \in CBD_3
+e \in N_2 ∩ [-3*sigma, 3*sigma]
