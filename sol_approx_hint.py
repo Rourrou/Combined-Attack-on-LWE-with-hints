@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
-# #!/usr/bin/python3
 import random
 import solver
 import numpy as np
-import time
 from tqdm import tqdm
 
 
-# solving the secret only / secret error perfect hints of Kyber
 def sol_approx_hints(m, k, solution):
     ETA = 3
     Sigma = 2
@@ -16,11 +12,11 @@ def sol_approx_hints(m, k, solution):
     nb_of_unknowns = len(solution)
     # print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/secret error/Kyber128/v.txt", 'r') as f:
+    with open("Data/Approximate Hints/secret error/Kyber512/v.txt", 'r') as f:
         lines_v = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_v)
 
-    with open("Data/secret error/Kyber128/l.txt", 'r') as g:
+    with open("Data/Approximate Hints/secret error/Kyber512/l.txt", 'r') as g:
         lines_l = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_l)
     # print(b)
@@ -28,7 +24,7 @@ def sol_approx_hints(m, k, solution):
     if m == 0:
         E_int = [0] * nb_of_unknowns
         nb_correct = np.count_nonzero(solution == E_int)
-        print("\nThe average recovered coefficients with %d hints is %d" % (m, nb_correct))
+        print("The average recovered coefficients with %d approximate hints is %d" % (m, nb_correct))
         short_vector = np.concatenate((np.array(E_int - solution), np.array([1])))
         distance = np.linalg.norm(short_vector)
         distance = np.round(distance, 2)
@@ -57,8 +53,9 @@ def sol_approx_hints(m, k, solution):
     ave_rec_dis = np.round(np.mean(rec_dis), 2)
     success_rate = num_correct / k
 
-    print("the average recovered coefficients with %d ineqs is %f/%d" % (m, ave_rec_num, nb_of_unknowns))
-    print("the success prob of recovering full ineqs with %d ineqs is %f" % (m, success_rate))
+    print("The average recovered coefficients with %d approximate hints is %f/%d" % (m, ave_rec_num, nb_of_unknowns))
+    print("The average recovered distances with %d approximate hints is %f/%d" % (m, ave_rec_dis, nb_of_unknowns))
+    print("The success prob of recovering full coes with %d approximate hints is %f" % (m, success_rate))
 
     return ave_rec_num, ave_rec_dis, success_rate
 
@@ -71,18 +68,18 @@ def ineq_sol_approx_hints(m, k, solution):
     nb_of_unknowns = len(solution)
     print("nb_of_unknowns", nb_of_unknowns)
 
-    with open("Data/secret error/Kyber128/v.txt", 'r') as f:
+    with open("Data/Approximate Hints/secret error/Kyber256/v.txt", 'r') as f:
         lines_V = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_V)
 
-    with open("Data/secret error/Kyber128/l.txt", 'r') as g:
+    with open("Data/Approximate Hints/secret error/Kyber256/l.txt", 'r') as g:
         lines_L = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_L)
 
     if m == 0:
         E_int = [0] * nb_of_unknowns
         nb_correct = np.count_nonzero(solution == E_int)
-        print("the average recovered coefficients with %d approximate hints is %d" % (m, nb_correct))
+        print("The average recovered coefficients with %d approximate hints is %d" % (m, nb_correct))
         short_vector = np.concatenate((np.array(E_int - solution), np.array([1])))
         distance = np.linalg.norm(short_vector)
         distance = np.round(distance, 2)
@@ -106,24 +103,23 @@ def ineq_sol_approx_hints(m, k, solution):
 
         V_selected = np.array(V_selected)
         L_selected = np.array(L_selected)
-        print("V_selected: ", V_selected[:3], "\nb_selected:", V_selected[:5])
         is_geq_zero = evaluate_inequalities_fast(V_selected, L_selected, solution)
-        print("is_geq_zero", is_geq_zero)
 
         # 恢复全部私钥
-        s, n, d = solver.solve_ineq_perfect_hints_del22(ETA, V_selected, L_selected, is_geq_zero, max_nb_of_iterations=10, solution=solution)
+        s, n, d = solver.solve_ineq_perfect_hints_del22(ETA, V_selected, L_selected, is_geq_zero, solution=solution)
         rec_num.append(n)
         rec_dis.append(d)
         if n == nb_of_unknowns:
             num_correct += 1
-        print("Number of selected coeffs matches:{:d}/{:d}".format(n, nb_of_unknowns))
+        # print("Number of selected coeffs matches:{:d}/{:d}".format(n, nb_of_unknowns))
 
     ave_rec_num = np.round(np.mean(rec_num),2)
     ave_rec_dis = np.round(np.mean(rec_dis),2)
     success_rate = np.round(num_correct / k,2)
 
-    print("the average recovered coefficients with %d ineqs is %f/%d" % (m, ave_rec_num, nb_of_unknowns))
-    print("the success prob of recovering full ineqs with %d ineqs is %f" % (m, success_rate))
+    print("The average recovered coefficients with %d approximate hints is %f/%d" % (m, ave_rec_num, nb_of_unknowns))
+    print("The average recovered distances with %d approximate hints is %f/%d" % (m, ave_rec_dis, nb_of_unknowns))
+    print("The success prob of recovering full coes with %d approximate hints is %f" % (m, success_rate))
 
     return ave_rec_num, ave_rec_dis, success_rate
 
@@ -133,7 +129,7 @@ def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of ine
 
 
 if __name__ == "__main__":
-    with open("Data/secret error/Kyber128/es.txt", 'r') as g:
+    with open("Data/Approximate Hints/secret error/Kyber512/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -143,11 +139,11 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(0, 1000, 10)):
+    for m in tqdm(range(1640, 1840, 40)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
-        # rec, dis, ratio = sol_approx_hints(m, 10, solution)
-        rec, dis, ratio = ineq_sol_approx_hints(m, 10, solution)
+        rec, dis, ratio = sol_approx_hints(m, 10, solution)
+        # rec, dis, ratio = ineq_sol_approx_hints(m, 10, solution)
         num_rec.append(rec)
         dis_rec.append(dis)
         suc_rat.append(ratio)
