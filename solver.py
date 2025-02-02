@@ -91,7 +91,7 @@ def solve_perfect_hints_Del22(eta, a, b, max_nb_of_iterations=10, solution=None,
     return guess, nb_correct, distance
 
 
-def solve_ineq_perfect_hints_del22(eta, a, b, is_geq_zero, max_nb_of_iterations=20, solution=None):
+def solve_ineq_hints_del22(eta, a, b, is_geq_zero, max_nb_of_iterations=20, solution=None):
     # print("Solving translated secret only perfect hints...")
 
     [nb_of_hints, nb_of_unknowns] = a.shape
@@ -159,7 +159,8 @@ def solve_ineq_perfect_hints_del22(eta, a, b, is_geq_zero, max_nb_of_iterations=
             break
     print("count", count)
     # print("guess", np.array(guess))
-    short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
+    # short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
+    short_vector = np.array(guess - solution)
     distance = np.linalg.norm(short_vector)
     distance = np.round(distance, 2)
     print("distance", distance)
@@ -236,7 +237,8 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
 
     print("count", count)
     # print("guess", np.array(guess))
-    short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
+    # short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
+    short_vector = np.array(guess - solution)
     distance = np.linalg.norm(short_vector)
     distance = np.round(distance, 2)
     print("distance", distance)

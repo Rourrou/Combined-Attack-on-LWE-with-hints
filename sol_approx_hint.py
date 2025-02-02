@@ -25,7 +25,8 @@ def sol_approx_hints(m, k, solution):
         E_int = [0] * nb_of_unknowns
         nb_correct = np.count_nonzero(solution == E_int)
         print("The average recovered coefficients with %d approximate hints is %d" % (m, nb_correct))
-        short_vector = np.concatenate((np.array(E_int - solution), np.array([1])))
+        # short_vector = np.concatenate((np.array(E_int - solution), np.array([1])))
+        short_vector = np.array(E_int - solution)
         distance = np.linalg.norm(short_vector)
         distance = np.round(distance, 2)
         return nb_correct, distance, 0
@@ -60,7 +61,7 @@ def sol_approx_hints(m, k, solution):
     return ave_rec_num, ave_rec_dis, success_rate
 
 
-def ineq_sol_approx_hints(m, k, solution):
+def sol_approx_hints_2_ineq(m, k, solution):
     ETA = 3
     Sigma = 2
 
@@ -106,7 +107,7 @@ def ineq_sol_approx_hints(m, k, solution):
         is_geq_zero = evaluate_inequalities_fast(V_selected, L_selected, solution)
 
         # 恢复全部私钥
-        s, n, d = solver.solve_ineq_perfect_hints_del22(ETA, V_selected, L_selected, is_geq_zero, solution=solution)
+        s, n, d = solver.solve_ineq_hints_del22(ETA, V_selected, L_selected, is_geq_zero, solution=solution)
         rec_num.append(n)
         rec_dis.append(d)
         if n == nb_of_unknowns:
@@ -139,17 +140,20 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(1640, 1840, 40)):
+    for m in tqdm(range(800, 1850, 40)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
-        rec, dis, ratio = sol_approx_hints(m, 10, solution)
-        # rec, dis, ratio = ineq_sol_approx_hints(m, 10, solution)
-        num_rec.append(rec)
-        dis_rec.append(dis)
+        rec, dis, ratio = sol_approx_hints(m, 20, solution)
+        # rec, dis, ratio = sol_approx_hints_2_ineq(m, 10, solution)
+        num_rec.append(round(rec, 1))
+        dis_rec.append(round(dis, 2))
         suc_rat.append(ratio)
 
+    num_rec = [float(x) for x in num_rec]
+    dis_rec = [float(x) for x in dis_rec]
+
     print("num_ine: ", num_ine)
-    print("num_rec: ", [round(x,1) for x in num_rec])
+    print("num_rec: ", num_rec)
     print("dis_rec: ", dis_rec)
     print("suc_rat: ", suc_rat)
 
