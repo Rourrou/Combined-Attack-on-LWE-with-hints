@@ -115,6 +115,6 @@ def ineq2ineq_HMS23(m,n):
 
 
 if __name__ == '__main__':
-    m = 6000
+    m = 400
     n = 512
     ineq2ineq_HMS23(m, n)
