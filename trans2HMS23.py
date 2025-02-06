@@ -7,7 +7,7 @@ def inequalities(m):
         lines = txt_file.readlines()[:m]
 
     # 创建.py文件并写入内容
-    with open("Data/Ineq Hints/secret error/Kyber512/inequalities.py", "w") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/inequalities.py", "w") as py_file:
         py_file.write(f"coeffs = [\n")
         for line in lines:
             # 移除行尾的换行符，并按空格分割元素
@@ -21,7 +21,7 @@ def inequalities(m):
 
 def signs(m):
     # 创建.py文件并写入内容
-    with open("Data/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
         py_file.write(f"signs = [\n")
         for i in range(m):
             py_file.write(f'"<=",\n')
@@ -34,7 +34,7 @@ def bs(m):
         lines = [line.strip() for line in txt_file.readlines()[:m]]
 
     # 创建.py文件并写入内容
-    with open("Data/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
         py_file.write(f"bs = [\n")
         for line in lines:
             py_file.write(f"{line},\n")
@@ -42,7 +42,7 @@ def bs(m):
 
 
 def is_corrects(m):
-    with open("Data/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
         py_file.write(f"is_corrects = [\n")
         for i in range(m):
             py_file.write(f"True,\n")
@@ -50,7 +50,7 @@ def is_corrects(m):
 
 
 def p_corrects(m):
-    with open("Data/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/inequalities.py", "a") as py_file:
         py_file.write(f"p_corrects = [\n")
         for i in range(m):
             py_file.write(f"1,\n")
@@ -66,7 +66,7 @@ def run_data(m, n):
     key_s = elements[n:]
 
     # 创建.py文件并写入内容
-    with open("Data/Ineq Hints/secret error/Kyber512/run_data.py", "w") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/run_data.py", "w") as py_file:
         py_file.write("key_e = [" + ", ".join(key_e) + "]\n")
         py_file.write("key_s = [" + ", ".join(key_s) + "]\n")
 
@@ -80,12 +80,12 @@ def run_data(m, n):
 
 def lwe_instance(n):
     # 读取公钥A
-    with open("Data/Ineq Hints/secret error/Kyber512/lwe_instance.py", "w") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/lwe_instance.py", "w") as py_file:
         py_file.write(f"a = [")
         py_file.write(f"]\n")
 
     # 读取LWE值b
-    with open("Data/Ineq Hints/secret error/Kyber512/lwe_instance.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/lwe_instance.py", "a") as py_file:
         py_file.write(f"b = [")
         py_file.write(f"]\n")
 
@@ -97,7 +97,7 @@ def lwe_instance(n):
     key_s = elements[n:]
 
     # 创建.py文件并写入内容
-    with open("Data/Ineq Hints/secret error/Kyber512/lwe_instance.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/Kyber512/lwe_instance.py", "a") as py_file:
         py_file.write("e = [" + ", ".join(key_e) + "]\n")
         py_file.write("s = [" + ", ".join(key_s) + "]\n")
         py_file.write(f"key = e + s\n")
@@ -115,6 +115,6 @@ def ineq2ineq_HMS23(m,n):
 
 
 if __name__ == '__main__':
-    m = 8000
+    m = 6000
     n = 512
     ineq2ineq_HMS23(m, n)
