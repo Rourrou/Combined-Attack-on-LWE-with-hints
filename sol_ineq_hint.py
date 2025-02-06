@@ -7,15 +7,15 @@ from tqdm import tqdm
 def sol_ineq_hints(m, k, solution):
     ETA = 3
 
-    nb_of_hints = 500
+    nb_of_hints = 8000
     nb_of_unknowns = len(solution)
     print("nb_of_unknowns", nb_of_unknowns)
 
-    with open("Data/Ineq Hints/secret error/Kyber256/v.txt", 'r') as f:
+    with open("Data/Ineq Hints/secret error/Kyber512/v.txt", 'r') as f:
         lines_V = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_V)
 
-    with open("Data/Ineq Hints/secret error/Kyber256/l.txt", 'r') as g:
+    with open("Data/Ineq Hints/secret error/Kyber512/l.txt", 'r') as g:
         lines_L = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_L)
 
@@ -66,7 +66,7 @@ def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of ine
 
 
 if __name__ == "__main__":
-    with open("Data/Ineq Hints/secret error/Kyber256/es.txt", 'r') as g:
+    with open("Data/Ineq Hints/secret error/Kyber512/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(0, 100, 80)):
+    for m in tqdm(range(0, 6001, 200)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
         rec, dis, ratio = sol_ineq_hints(m, 20, solution)
