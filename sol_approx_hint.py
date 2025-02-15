@@ -5,18 +5,18 @@ from tqdm import tqdm
 
 
 def sol_approx_hints(m, k, solution):
-    ETA = 3
+    ETA = 40
     Sigma = 2
 
-    nb_of_hints = 2000
+    nb_of_hints = 60
     nb_of_unknowns = len(solution)
     # print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/Approximate Hints/secret error/Kyber512/v.txt", 'r') as f:
+    with open("Data/ShaoYan/LWE_80_40/v.txt", 'r') as f:
         lines_v = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_v)
 
-    with open("Data/Approximate Hints/secret error/Kyber512/l.txt", 'r') as g:
+    with open("Data/ShaoYan/LWE_80_40/l.txt", 'r') as g:
         lines_l = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_l)
     # print(b)
@@ -130,7 +130,7 @@ def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of ine
 
 
 if __name__ == "__main__":
-    with open("Data/Approximate Hints/secret error/Kyber512/es.txt", 'r') as g:
+    with open("Data/ShaoYan/LWE_80_40/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -140,10 +140,10 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(800, 1850, 40)):
+    for m in tqdm(range(0, 61, 5)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
-        rec, dis, ratio = sol_approx_hints(m, 20, solution)
+        rec, dis, ratio = sol_approx_hints(m, 50, solution)
         # rec, dis, ratio = sol_approx_hints_2_ineq(m, 10, solution)
         num_rec.append(round(rec, 1))
         dis_rec.append(round(dis, 2))

@@ -104,6 +104,7 @@ def solve_ineq_hints_del22(eta, a, b, is_geq_zero, max_nb_of_iterations=20, solu
         mean = np.matmul(x_pmf, x)  # 计算当前分布下，所有未知数的期望值
         variance = np.matmul(x_pmf, np.square(x)) - np.square(mean)
         mean = np.multiply(a, np.repeat(mean[np.newaxis, :], nb_of_hints, axis=0))
+        #print("mean",mean)
         variance = np.multiply(a_squared, np.repeat(variance[np.newaxis, :], nb_of_hints, axis=0))
         mean = mean.sum(axis=1).reshape(-1, 1).repeat(nb_of_unknowns, axis=1) - mean  # 减去自身
         mean -= b[:, np.newaxis]
@@ -116,7 +117,7 @@ def solve_ineq_hints_del22(eta, a, b, is_geq_zero, max_nb_of_iterations=20, solu
 
         psuccess = np.transpose(psuccess, axes=[2, 0, 1])
         psuccess = np.multiply(psuccess, is_geq_zero) + np.multiply(1 - psuccess, 1 - is_geq_zero)
-        psuccess = np.clip(psuccess, 10e-5, None)
+        psuccess = np.clip(psuccess, 10e-20, None)
         psuccess = np.sum(np.log(psuccess), axis=2)
         row_means = psuccess.max(axis=1)
         psuccess -= row_means[:, np.newaxis]
@@ -168,7 +169,7 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
     nb_of_values = 2 * eta + 1
     x = np.arange(-eta, eta + 1, dtype=np.int8)
     x_pmf = binom.pmf(x + eta, 2 * eta, 0.5)
-    # print("x_pmf: ", x_pmf)
+    print("x_pmf: ", x_pmf)
     x_pmf = np.repeat(x_pmf.reshape(1, -1), nb_of_unknowns, axis=0)
 
     V = V.astype(np.int16)
@@ -181,6 +182,7 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
         mean = np.matmul(x_pmf, x)  # 计算当前分布下，所有未知数的期望值
         variance = np.matmul(x_pmf, np.square(x)) - np.square(mean)
         mean = np.multiply(V, np.repeat(mean[np.newaxis, :], nb_of_hints, axis=0))
+        print("mean",mean)
         variance = np.multiply(V_squared, np.repeat(variance[np.newaxis, :], nb_of_hints, axis=0))
         mean = mean.sum(axis=1).reshape(-1, 1).repeat(nb_of_unknowns, axis=1) - mean  # 减去自身
         mean -= L[:, np.newaxis]
