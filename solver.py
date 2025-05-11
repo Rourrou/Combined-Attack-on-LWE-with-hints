@@ -233,3 +233,82 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
     distance = np.round(distance, 2)
     print("distance", distance)
     return guess, nb_correct, distance
+
+
+def solve_sca_approx_hints_Del22(eta, bias, V, L, max_nb_of_iterations=20, solution=None, so_flag=None):
+    # if so_flag:
+    #     print("Solving secret only approximate hints...")
+    # else:
+    #     print("Solving secret error approximate hints...")
+
+    [nb_of_hints, nb_of_unknowns] = V.shape
+    guess = np.zeros(nb_of_unknowns, dtype=int)  # creat an initial guess of the solution with all values set to zero
+    if nb_of_hints == 0:
+        return guess
+    nb_of_values = 2 * eta + 1
+    x = np.arange(-eta, eta + 1, dtype=np.int8)
+    x_pmf = binom.pmf(x + eta, 2 * eta, 0.5)
+    # print("x_pmf: ", x_pmf)
+    x_pmf = np.repeat(x_pmf.reshape(1, -1), nb_of_unknowns, axis=0)
+
+    V = V.astype(np.int16)
+    V_squared = np.square(V)
+
+    count = [0] * max_nb_of_iterations
+    for z in range(max_nb_of_iterations):
+        # print("Iteration " + str(z))
+        time_start = time.time()
+        mean = np.matmul(x_pmf, x)  # 计算当前分布下，所有未知数的期望值
+        variance = np.matmul(x_pmf, np.square(x)) - np.square(mean)
+        mean = np.multiply(V, np.repeat(mean[np.newaxis, :], nb_of_hints, axis=0))
+        # print("mean",mean)
+        variance = np.multiply(V_squared, np.repeat(variance[np.newaxis, :], nb_of_hints, axis=0))
+        mean = mean.sum(axis=1).reshape(-1, 1).repeat(nb_of_unknowns, axis=1) - mean  # 减去自身
+        mean -= L[:, np.newaxis]
+        variance = variance.sum(axis=1).reshape(-1, 1).repeat(nb_of_unknowns, axis=1) - variance
+        variance = np.clip(variance, 1, None)
+        psuccess = np.zeros((nb_of_values, nb_of_hints, nb_of_unknowns), dtype=float)
+        for j in range(nb_of_values):
+            # 求解连续高斯分布中某个点值的概率
+            zscore_pos = np.divide(V * x[j] + mean + bias, np.sqrt(variance))
+            zscore_neg = np.divide(V * x[j] + mean - bias, np.sqrt(variance))
+            psuccess[j, :, :] = norm.cdf(zscore_pos) - norm.cdf(zscore_neg)  # central limit theorem
+
+        psuccess = np.transpose(psuccess, axes=[2, 0, 1])
+        # print("psuccess", psuccess[0])
+        psuccess = np.clip(psuccess, 10e-10, None)
+        psuccess = np.sum(np.log(psuccess), axis=2)
+        # print("psuccess", psuccess)
+        row_means = psuccess.max(axis=1)
+        psuccess -= row_means[:, np.newaxis]
+        # print("row_means",row_means)
+        psuccess = np.exp(psuccess)
+
+        x_pmf = np.multiply(psuccess, x_pmf)
+        row_sums = x_pmf.sum(axis=1)
+        x_pmf /= row_sums[:, np.newaxis]
+        guess = x[np.argmax(x_pmf, axis=1)]
+
+        # if z == max_nb_of_iterations - 1:
+        #     print(np.array(guess))
+
+        time_end = time.time()
+        # print("Elapsed time: {:.1f} seconds".format(time_end - time_start))
+        if solution is not None:
+            nb_correct = np.count_nonzero(solution == guess)
+            count[z] = nb_correct
+            # print("Number of correctly guessed unknowns: {:d}/{:d}".format(nb_correct, len(solution)))
+        if (z > 1) and count[z-1] >= count[z] + 1:
+            # print(np.array(guess))
+            count[z] = count[z - 1]
+            break
+
+    # print("count", count)
+    print("nb_correct", count[z])
+    # print("guess", np.array(guess))
+    # short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
+    short_vector = np.array(guess - solution)
+    distance = np.linalg.norm(short_vector)
+    distance = np.round(distance, 2)
+    print("distance", distance)
+    return guess, count[z], distance

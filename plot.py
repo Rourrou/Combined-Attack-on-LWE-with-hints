@@ -533,6 +533,53 @@ def plot_Kyber128_ps_dis():
 
 
     plt.show()
+
+
+
+def plot_Kyber128_ineq_hint_Comparision():
+    Kyber128_ineq_num = [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440, 480, 520, 560]
+    Kyber128_ineq_lr = [50.58, 48.67, 47.08, 45.81, 44.69, 43.83, 42.84, 42.06, 41.41, 40.85, 40.33, 39.80, 39.37, 38.89, 38.65]
+    Kyber128_ineq_ps = [50.58, 55.15, 55.23, 55.33, 53.51, 52.53, 51.14, 48.82, 47.11, 44.78, 42.76, 39.43, 37.51, 34.11, 30.66]
+    Kyber128_ineq_bp = [50.58, 50.80, 50.76, 48.74, 49.18, 47.82, 48.09, 47.28, 47.15, 43.55, 39.10, 35.21, 27.38, 22.24, 15.54]
+    Kyber128_ineq_hms23 = [50.58, 51.43, 50.92, 49.90, 49.22, 48.20, 46.15, 44.62, 41.55, 37.13, 32.53, 27.42, 21.12, 13.79, 2.04]
+    Kyber128_ineq_com_ps = [50.58, 48.67, 47.08, 45.81, 44.69, 43.83, 42.84, 40.42, 37.88, 34.87, 32.11, 27.61, 24.83, 22.67, 15.85]
+    Kyber128_ineq_com_bp = [50.58, 48.64, 47.31, 43.77, 42.98, 40.68, 39.90, 38.33, 37.63, 33.03, 27.14, 23.70, 18.48, 14.21, 9.97]
+
+    # 截断横坐标
+    Kyber128_ineq_num = np.array(Kyber128_ineq_num)
+    indices = np.max(np.nonzero(Kyber128_ineq_num <= 500)[0])
+    print("indices", indices)
+
+    for i in range(1,indices+1):
+        if Kyber128_ineq_lr[i] > Kyber128_ineq_lr[0]: Kyber128_ineq_lr[i] = Kyber128_ineq_lr[0]
+        if Kyber128_ineq_ps[i] > Kyber128_ineq_ps[0]: Kyber128_ineq_ps[i] = Kyber128_ineq_ps[0]
+        if Kyber128_ineq_bp[i] > Kyber128_ineq_bp[0]: Kyber128_ineq_bp[i] = Kyber128_ineq_bp[0]
+        if Kyber128_ineq_hms23[i] > Kyber128_ineq_hms23[0]: Kyber128_ineq_hms23[i] = Kyber128_ineq_hms23[0]
+        if Kyber128_ineq_com_ps[i] > Kyber128_ineq_com_ps[0]: Kyber128_ineq_com_ps[i] = Kyber128_ineq_com_ps[0]
+        if Kyber128_ineq_com_bp[i] > Kyber128_ineq_com_bp[0]: Kyber128_ineq_com_bp[i] = Kyber128_ineq_com_bp[0]
+
+
+    # 画图
+    plt.figure(figsize=(8, 6))
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_lr)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Lattice Reduction', color='blue')
+    # plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed', linewidth=1, label='Probabilistic Statistic', color='green')
+    # plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp)[:indices], '^', markersize=5, markerfacecolor='none', linestyle='dashed', linewidth=1, label='Belief Propagation', color='orange')
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_hms23)[:indices], 's', markersize=5,
+             markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='HMS23', color='purple')
+    # plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_ps)[:indices], 'p', markersize=5, markerfacecolor='none', linestyle='dashed', linewidth=1, label='Combined with PS', color='brown')
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_bp)[:indices], 'D', markersize=5,
+             markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Combined with BP', color='red')
+
+    # Labels and title
+    plt.xlabel("Number of inequality hints")
+    plt.ylabel("BKZ-$\\beta$")
+    plt.legend(loc='upper right')
+
+    plt.show()
+
     
 def plot_Kyber80_lr_dis():
     Kyber80_approx_num = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80]
@@ -745,9 +792,10 @@ if __name__ == '__main__':
     # plot_Kyber128_ps_dis()
 
     # Section 5 Performance of Combinatorial Attack on LWE with Hints
-    plot_Kyber128_approx_hint_Com()
-    plot_Kyber128_ineq_hint_Com()
-    plot_Kyber128_perfect_hint_Com()
+    # plot_Kyber128_approx_hint_Com()
+    # plot_Kyber128_ineq_hint_Com()
+    # plot_Kyber128_perfect_hint_Com()
+    plot_Kyber128_ineq_hint_Comparision()
 
     # Section 6 Experimental Validation
     # plot_LWE80_approx_hint()
