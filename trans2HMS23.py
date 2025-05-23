@@ -3,11 +3,11 @@ import numpy as np
 
 def inequalities(m):
     # 读取txt文件内容
-    with open("Data/Ineq Hints/secret error/LWE_128/v.txt", "r") as txt_file:
+    with open("Data/Ineq Hints/secret error/LWE_80_10_3_2/v.txt", "r") as txt_file:
         lines = txt_file.readlines()[:m]
 
     # 创建.py文件并写入内容
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/inequalities.py", "w") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/inequalities.py", "w") as py_file:
         py_file.write(f"coeffs = [\n")
         for line in lines:
             # 移除行尾的换行符，并按空格分割元素
@@ -21,7 +21,7 @@ def inequalities(m):
 
 def signs(m):
     # 创建.py文件并写入内容
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/inequalities.py", "a") as py_file:
         py_file.write(f"signs = [\n")
         for i in range(m):
             py_file.write(f'"<=",\n')
@@ -30,11 +30,11 @@ def signs(m):
 
 def bs(m):
     # 读取txt文件内容
-    with open("Data/Ineq Hints/secret error/LWE_128/l.txt", "r") as txt_file:
+    with open("Data/Ineq Hints/secret error/LWE_80_10_3_2/l.txt", "r") as txt_file:
         lines = [line.strip() for line in txt_file.readlines()[:m]]
 
     # 创建.py文件并写入内容
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/inequalities.py", "a") as py_file:
         py_file.write(f"bs = [\n")
         for line in lines:
             py_file.write(f"{line},\n")
@@ -42,7 +42,7 @@ def bs(m):
 
 
 def is_corrects(m):
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/inequalities.py", "a") as py_file:
         py_file.write(f"is_corrects = [\n")
         for i in range(m):
             py_file.write(f"True,\n")
@@ -50,7 +50,7 @@ def is_corrects(m):
 
 
 def p_corrects(m):
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/inequalities.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/inequalities.py", "a") as py_file:
         py_file.write(f"p_corrects = [\n")
         for i in range(m):
             py_file.write(f"1,\n")
@@ -59,14 +59,14 @@ def p_corrects(m):
 
 def run_data(m, n):
     # 读取txt文件内容
-    with open("Data/Ineq Hints/secret error/LWE_128/es.txt", "r") as txt_file:
+    with open("Data/Ineq Hints/secret error/LWE_80_10_3_2/es.txt", "r") as txt_file:
         elements = txt_file.read().split()
 
     key_e = elements[:n]
     key_s = elements[n:]
 
     # 创建.py文件并写入内容
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/run_data.py", "w") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/run_data.py", "w") as py_file:
         py_file.write("key_e = [" + ", ".join(key_e) + "]\n")
         py_file.write("key_s = [" + ", ".join(key_s) + "]\n")
 
@@ -80,9 +80,9 @@ def run_data(m, n):
 
 def lwe_instance(n):
     # 读取公钥A
-    with open("Data/Ineq Hints/secret error/LWE_128/A.txt", "r") as txt_file:
+    with open("Data/Ineq Hints/secret error/LWE_80_10_3_2/A.txt", "r") as txt_file:
         lines = txt_file.readlines()[:m]
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/lwe_instance.py", "w") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/lwe_instance.py", "w") as py_file:
         py_file.write(f"a = [\n")
         for line in lines:
             # 移除行尾的换行符，并按空格分割元素
@@ -93,21 +93,21 @@ def lwe_instance(n):
             py_file.write(f"[{vector_str}],\n")
         py_file.write(f"]\n")
 
-    with open("Data/Ineq Hints/secret error/LWE_128/b.txt", "r") as txt_file:
+    with open("Data/Ineq Hints/secret error/LWE_80_10_3_2/b.txt", "r") as txt_file:
         elements = txt_file.read().split()
     # 创建.py文件并写入内容
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/lwe_instance.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/lwe_instance.py", "a") as py_file:
         py_file.write("b = [" + ", ".join(elements) + "]\n")
 
     # 读取私钥e+s
-    with open("Data/Ineq Hints/secret error/LWE_128/es.txt", "r") as txt_file:
+    with open("Data/Ineq Hints/secret error/LWE_80_10_3_2/es.txt", "r") as txt_file:
         elements = txt_file.read().split()
 
     key_e = elements[:n]
     key_s = elements[n:]
 
     # 创建.py文件并写入内容
-    with open("Data/HMS23/Ineq Hints/secret error/LWE_128/lwe_instance.py", "a") as py_file:
+    with open("Data/HMS23/Ineq Hints/secret error/LWE_80_10_3_2/lwe_instance.py", "a") as py_file:
         py_file.write("e = [" + ", ".join(key_e) + "]\n")
         py_file.write("s = [" + ", ".join(key_s) + "]\n")
         py_file.write(f"key = e + s\n")

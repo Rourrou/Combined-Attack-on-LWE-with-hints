@@ -101,6 +101,40 @@ def plot_LWE80_approx_hint():
     plt.legend(loc='upper right', fontsize=14)
 
     plt.show()
+    
+
+# 实际LR验证实验，inequality hints
+def plot_LWE80_ineq_hint():
+    LWE80_ine_num = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+    LWE80_ine_emb_est = [57.14, 52.13, 48.64, 45.81, 43.38, 41.62, 39.91, 38.69, 37.39, 36.40, 35.63]
+    LWE80_ine_emb_pra = [53.57, 54.00, 45.71, 47.29, 40.57, 42.71, 42.43, 40.00, 39.00, 37.86, 38.57]
+    LWE80_ine_dis = []
+    LWE80_ine_ps = []
+    LWE80_ine_com_est = []
+    LWE80_ine_com_pra = []
+
+    # 只取横坐标在800及以下的值
+    LWE80_ine_num = np.array(LWE80_ine_num)
+    mask = LWE80_ine_num <= 500
+
+    # 画图
+    plt.figure(figsize=(8, 6))
+    plt.plot(LWE80_ine_num[mask], np.array(LWE80_ine_emb_est)[mask], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Prediction (DDGR20)', color='black')
+    # plt.plot(LWE80_ine_num[mask], np.array(LWE80_ine_com_est)[mask], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+    #          linewidth=1, label='Prediction (Our)', color='black')
+    plt.plot(LWE80_ine_num[mask], np.array(LWE80_ine_emb_pra)[mask], 's', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Experiment (DDGR20)', color='blue')
+    # plt.plot(LWE80_ine_num[mask], np.array(LWE80_ine_com_pra)[mask], '*', markersize=5, markerfacecolor='none',
+    #          linestyle='dashed',
+    #          linewidth=1, label='Experiment (Our)', color='red')
+
+    # Labels and title
+    plt.xlabel("Number of hints")
+    plt.ylabel("BKZ-$\\beta$")
+    plt.legend(loc='upper right', fontsize=14)
+
+    plt.show()
 
 def plot_Kyber128_approx_hint_LR_PS():
     Kyber128_approx_num = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200,
@@ -288,6 +322,85 @@ def plot_Kyber128_perfect_hint_Com():
 
     # Labels and title
     plt.xlabel("Number of perfect hints")
+    plt.ylabel("BKZ-$\\beta$")
+    plt.legend(loc='upper right')
+
+    plt.show()
+
+
+def plot_Kyber128_approx_hint_Com_BP():
+    Kyber128_approx_num = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
+    Kyber128_approx_bp = [50.58, 50.51, 49.59, 49.56, 49.39, 47.32, 45.33, 44.70, 44.35, 43.97, 43.57, 42.48, 41.10, 40.26, 38.40, 37.03, 34.70, 32.57, 31.09, 28.51, 25.90]
+    Kyber128_approx_com_bp = [50.58, 46.28, 41.12, 36.90, 32.41, 24.89, 21.31, 18.13, 14.78, 12.94, 10.96, 9.29, 8.03, 6.81, 5.03, 4.42, 3.71, 2.96, 2.00, 2.00, 2.00]
+
+    # 只取横坐标在200及以下的值
+    Kyber128_approx_num = np.array(Kyber128_approx_num)
+    indices = np.max(np.nonzero(Kyber128_approx_num <= 180)[0])
+
+    # 画图
+    plt.figure(figsize=(8, 6))
+    plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_bp)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='BP [19]', color='green')
+    plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_com_bp)[:indices], 's', markersize=5,
+             markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Our Results 2', color='red')
+
+    # Labels and title
+    plt.xlabel("Number of approximate hints")
+    plt.ylabel("BKZ-$\\beta$")
+    plt.legend(loc='upper right')
+
+    plt.show()
+
+
+def plot_Kyber128_ineq_hint_Com_BP():
+    Kyber128_ineq_num = [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440, 480, 520, 560, 600, 640, 680, 720]
+    Kyber128_ineq_bp = [50.58, 50.51, 49.89, 49.36, 49.07, 47.07, 46.37, 44.01, 41.55, 38.37, 36.38, 31.20, 29.48, 24.01, 22.61, 11.95, 6.05, 4.52, 2.00]
+    Kyber128_ineq_bp_HMS23 = [50.58, 50.51, 49.89, 49.36, 49.07, 47.07, 46.37, 44.01, 40.30, 35.80, 32.15, 24.83, 21.46, 15.61, 2.68, 2.00, 2.00, 2.00, 2.00]
+    Kyber128_ineq_com_bp = [50.58, 46.28, 41.12, 36.90, 32.41, 24.89, 21.31, 18.13, 14.78, 12.94, 10.96, 9.29, 8.03, 6.81, 5.03, 4.42, 3.71, 2.96, 2.00, 2.00, 2.00]
+
+    # 只取横坐标在200及以下的值
+    Kyber128_ineq_num = np.array(Kyber128_ineq_num)
+    indices = np.max(np.nonzero(Kyber128_ineq_num <= 560)[0])
+
+    # 画图
+    plt.figure(figsize=(8, 6))
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='BP [19]', color='green')
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp_HMS23)[:indices], 'v', markersize=5,
+             markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='HMS23 [17]', color='blue')
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_bp)[:indices], 's', markersize=5,
+             markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Our Results 2', color='red')
+
+    # Labels and title
+    plt.xlabel("Number of inequality hints")
+    plt.ylabel("BKZ-$\\beta$")
+    plt.legend(loc='upper right')
+
+    plt.show()
+
+
+def plot_Kyber128_per_hint_Com_BP():
+    Kyber128_ineq_num = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+    Kyber128_ineq_bp = [50.58, 50.58, 50.58, 50.58, 50.58, 50.36, 50.20, 49.69, 49.62, 49.35, 49.17]
+    Kyber128_ineq_com_bp = [50.58, 41.88, 33.52, 22.53, 14.89, 9.59, 6.04, 3.33, 2.00, 2.00, 2.00]
+
+    # 只取横坐标在200及以下的值
+    Kyber128_ineq_num = np.array(Kyber128_ineq_num)
+    indices = np.max(np.nonzero(Kyber128_ineq_num <= 46)[0])
+
+    # 画图
+    plt.figure(figsize=(8, 6))
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='BP [19]', color='green')
+    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_bp)[:indices], 's', markersize=5,
+             markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Our Results 2', color='red')
+
+    # Labels and title
+    plt.xlabel("Number of inequality hints")
     plt.ylabel("BKZ-$\\beta$")
     plt.legend(loc='upper right')
 
@@ -719,7 +832,7 @@ def plot_Kyber512_dfa_hint():
 
     # 只取横坐标在800及以下的值
     Kyber512_dfa_num = np.array(Kyber512_dfa_num)
-    mask = Kyber512_dfa_num <= 125
+    mask = Kyber512_dfa_num <= 205
 
     # 画图
     plt.figure(figsize=(8, 6))
@@ -733,6 +846,34 @@ def plot_Kyber512_dfa_hint():
 
     # Labels and title
     plt.xlabel("Number of hints")
+    plt.ylabel("BKZ-$\\beta$")
+    plt.legend(loc='upper right')
+
+    plt.show()
+
+
+def plot_Kyber512_sca_hint():
+    Kyber512_sca_num = [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440, 480, 520, 560, 600, 640, 680, 720, 760, 800, 840, 880, 920, 960, 1000, 1040, 1080, 1120, 1160, 1200, 1240, 1280, 1320, 1360, 1400, 1440, 1480, 1520, 1560, 1600, 1640, 1680, 1720, 1760, 1800]
+    Kyber512_sca_emb = [405.53, 398.06, 390.94, 384.05, 377.43, 371.07, 364.95, 359.06, 353.41, 347.985, 342.752, 337.76, 332.96, 328.37, 323.96, 319.74, 315.69, 311.84, 308.15, 304.64, 301.31, 298.13, 295.14, 292.28, 289.56, 287.02, 284.52, 282.27, 280.13, 278.07, 276.12, 274.31, 272.58, 270.92, 269.35, 267.87, 266.47, 265.12, 263.83, 262.59, 261.40, 260.25, 259.17, 258.12, 257.12, 256.14]
+    Kyber512_sca_dis = [39.56, 40.03, 40.4, 40.4, 40.31, 40.09, 39.85, 39.7, 39.23, 39.2, 38.86, 38.64, 38.33, 37.92, 37.5, 37.2, 37.1, 36.7, 36.54, 36.23, 35.97, 35.76, 35.48, 35.16, 34.96, 34.77, 34.47, 34.17, 33.89, 33.66, 33.62, 33.14, 32.71, 32.58, 32.53, 32.36, 32.01, 31.83, 31.56, 31.23, 31.19, 31, 30.68, 30.37, 30.3, 29.99, 29.86, 29.73, 29.4, 29.33, 29.06]
+    Kyber512_sca_ps = [405.53, 405.53, 405.53, 405.53, 405.53, 405.53, 405.53, 405.53, 404.54, 404.44, 403.36, 402.66, 401.67, 400.36, 399.00, 398.03, 397.70, 396.40, 395.87, 394.85, 393.99, 393.3, 392.4, 391.3, 390.6, 390.0, 389.0, 387.9, 387.0, 386.2, 386.1, 384.4, 382.9, 382.4, 382.3, 381.7, 380.4, 379.8, 378.8, 377.7, 377.5, 376.8, 375.7, 374.6, 374.3, 373.2]
+    Kyber512_sca_com = [405.53, 398.06, 390.94, 384.05, 377.43, 371.07, 364.95, 359.06, 352.57, 347.05, 341, 335.55, 330.05, 324.56, 319.25, 314.43, 310.25, 305.61, 301.68, 297.6, 293.82, 290.31, 286.84, 283.43, 280.41, 277.60, 274.60, 271.85, 269.26, 266.85, 264.94, 262.27, 259.80, 257.99, 256.44, 254.72, 252.74, 251.13, 249.41, 247.63, 246.46, 245.04, 243.42, 241.87, 240.81, 239.33]
+
+    # 只取横坐标在800及以下的值
+    Kyber512_sca_num = np.array(Kyber512_sca_num)
+    mask = Kyber512_sca_num <= 1801
+
+    # 画图
+    plt.figure(figsize=(8, 6))
+    plt.plot(Kyber512_sca_num[mask], np.array(Kyber512_sca_emb)[mask], 'v', markersize=3, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Lattice Reduction [9]', color='blue')
+    plt.plot(Kyber512_sca_num[mask], np.array(Kyber512_sca_ps)[mask], 'o', markersize=3, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Belief Propagation [19]', color='green')
+    plt.plot(Kyber512_sca_num[mask], np.array(Kyber512_sca_com)[mask], 's', markersize=3, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Combinatorial Attack', color='red')
+
+    # Labels and title
+    plt.xlabel("Number of inequalities")
     plt.ylabel("BKZ-$\\beta$")
     plt.legend(loc='upper right')
 
@@ -795,11 +936,17 @@ if __name__ == '__main__':
     # plot_Kyber128_approx_hint_Com()
     # plot_Kyber128_ineq_hint_Com()
     # plot_Kyber128_perfect_hint_Com()
-    plot_Kyber128_ineq_hint_Comparision()
+    # plot_Kyber128_ineq_hint_Comparision()
+
+    # plot_Kyber128_approx_hint_Com_BP()
+    # plot_Kyber128_ineq_hint_Com_BP()
+    # plot_Kyber128_per_hint_Com_BP()
 
     # Section 6 Experimental Validation
     # plot_LWE80_approx_hint()
-    #plot_Kyber512_dfa_hint()
+    plot_LWE80_ineq_hint()
+    # plot_Kyber512_dfa_hint()
+    # plot_Kyber512_sca_hint()
 
 
     #plot_Kyber128_LR()
