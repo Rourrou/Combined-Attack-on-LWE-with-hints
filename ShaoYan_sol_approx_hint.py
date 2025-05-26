@@ -13,13 +13,13 @@ def sol_approx_hints(m, k, solution):
     # print("The number of unknowns", nb_of_unknowns)
 
     V = []
-    with open("Data/ShaoYan/LWE_80_40/v.txt", 'r') as f:
+    with open("Data/ShaoYan/LWE_80_40/Approx_hint/v.txt", 'r') as f:
         for line in f:
             for _ in line[1:-5].split("], "):
                 V.append(list(map(int, _[1:].split(", "))))
     print("\nload V from file..........Success!!!\n")
 
-    with open("Data/ShaoYan/LWE_80_40/l.txt", 'r') as g:
+    with open("Data/ShaoYan/LWE_80_40/Approx_hint/l.txt", 'r') as g:
         for line in g:
             L = list(map(int, line[1:-2].split(", ")))
 
@@ -65,7 +65,7 @@ def sol_approx_hints(m, k, solution):
 
 
 if __name__ == "__main__":
-    with open("Data/ShaoYan/LWE_80_40/es.txt", 'r') as g:
+    with open("Data/ShaoYan/LWE_80_40/Approx_hint/es.txt", 'r') as g:
         for line in g:
             solution = list(map(int, line[1:-2].split(", ")))
     solution = np.array(solution)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(5, 100, 100)):
+    for m in tqdm(range(5, 60, 20)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
         rec, dis, ratio = sol_approx_hints(m, 5, solution)

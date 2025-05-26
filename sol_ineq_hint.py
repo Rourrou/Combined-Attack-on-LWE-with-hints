@@ -5,8 +5,8 @@ from tqdm import tqdm
 
 
 def sol_ineq_hints(m, k, solution):
-    ETA = 40
-    nb_of_hints = 1000
+    ETA = 10
+    nb_of_hints = 1201
     nb_of_unknowns = len(solution)
     print("nb_of_unknowns", nb_of_unknowns)
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(0, 1601, 200)):
+    for m in tqdm(range(0, 1001, 50)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
         rec, dis, ratio = sol_ineq_hints(m, 10, solution)

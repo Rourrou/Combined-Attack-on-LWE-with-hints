@@ -3,23 +3,21 @@ import solver
 import numpy as np
 from tqdm import tqdm
 
-
-def sol_ineq_hints(m, k, solution):
-    ETA = 40
-    nb_of_hints = 600
+# Data/Ineq Hints/secret error/LWE_80_10_3_2/
+# Data/ShaoYan/LWE_80_10_3_2/T9
+def sol_ineq_hints(m, solution):
+    ETA = 10
+    nb_of_hints = 1001
     nb_of_unknowns = len(solution)
     print("nb_of_unknowns", nb_of_unknowns)
 
-    V = []
-    with open("Data/ShaoYan/LWE_80_40/Ineq_hint/v.txt", 'r') as f:
-        for line in f:
-            for _ in line[1:-5].split("], "):
-                V.append(list(map(int, _[1:].split(", "))))
-    print("\nload V from file..........Success!!!\n")
+    with open("Data/ShaoYan/LWE_80_10_3_2/T9/V.txt", 'r') as f:
+        lines_V = [next(f) for _ in range(nb_of_hints)]
+    V = np.loadtxt(lines_V)
 
-    with open("Data/ShaoYan/LWE_80_40/Ineq_hint/l.txt", 'r') as g:
-        for line in g:
-            L = list(map(int, line[1:-2].split(", ")))
+    with open("Data/ShaoYan/LWE_80_10_3_2/T9/l_ori.txt", 'r') as g:
+        lines_L = [next(g) for _ in range(nb_of_hints)]
+    L = np.loadtxt(lines_L)
 
     if m == 0:
         E_int = [0] * nb_of_unknowns
@@ -29,38 +27,32 @@ def sol_ineq_hints(m, k, solution):
         distance = np.linalg.norm(short_vector)
         distance = np.round(distance, 2)
         print("The average distance with %d ineq hints is %d" % (m, distance))
-        return nb_correct, distance, 0
+        return short_vector, nb_correct, distance
 
-    rec_num = []
-    rec_dis = [] # the distance between recovered secret and solution
+
     num_correct = 0  # k次实验中，正确恢复完整私钥的次数
 
-    # k次实验
-    for i in range(k):
-        # 选择m个索引
-        indices = random.sample(range(nb_of_hints), m)
-        V_selected = np.array([V[j] for j in indices])
-        L_selected = np.array([L[j] for j in indices])
-        is_geq_zero = evaluate_inequalities_fast(V_selected, L_selected, solution)
-        # print(is_geq_zero)
+    V_selected = np.array(V[:m,:])
+    # print("V_selected",V_selected)
+    L_selected = np.array(L[:m])
+    LP = V_selected @ solution
 
-        # 恢复全部私钥
-        s, n, d = solver.solve_ineq_hints_del22(ETA, V_selected, L_selected, is_geq_zero, solution=solution)
-        rec_num.append(n)
-        rec_dis.append(d)
-        if n == nb_of_unknowns:
-            num_correct += 1
-        # print("Number of selected coeffs matches:{:d}/{:d}".format(n, nb_of_unknowns))
+    is_geq_zero = evaluate_inequalities_fast(V_selected, L_selected, solution)
+    # print(is_geq_zero)
 
-    ave_rec_num = np.round(np.mean(rec_num), 2)
-    ave_rec_dis = np.round(np.mean(rec_dis), 2)
-    success_rate = np.round(num_correct / k, 2)
+    # 恢复全部私钥
+    s, n, d = solver.solve_ineq_hints_del22(ETA, V_selected, L_selected, is_geq_zero, solution=solution)
 
-    print("The average recovered coefficients with %d ineq hints is %f/%d" % (m, ave_rec_num, nb_of_unknowns))
-    print("The average recovered distances with %d ineq hints is %f/%d" % (m, ave_rec_dis, nb_of_unknowns))
-    print("The success prob of recovering full coes with %d ineq hints is %f" % (m, success_rate))
+    s_str = " ".join(map(str, s))
+    with open("Data/ShaoYan/LWE_80_10_3_2/T9/es_new.txt", "a") as f:
+        _ = f.write(s_str+ "\n")
+    print(f"Vector s has been saved")
 
-    return ave_rec_num, ave_rec_dis, success_rate
+
+    print("The recovered coefficients with %d ineq hints is %f/%d" % (m, n, nb_of_unknowns))
+    print("The recovered distances with %d ineq hints is %f/%d" % (m, d, nb_of_unknowns))
+
+    return s, n, d
 
 
 def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of inequalities
@@ -68,10 +60,9 @@ def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of ine
 
 
 if __name__ == "__main__":
-    with open("Data/ShaoYan/LWE_80_40/Ineq_hint/es.txt", 'r') as g:
-        for line in g:
-            solution = list(map(int, line[1:-2].split(", ")))
-    solution = np.array(solution)
+    with open("Data/ShaoYan/LWE_80_10_3_2/T9/es.txt", 'r') as g:
+        solution = g.readlines()
+    solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
 
     num_ine = []
@@ -79,21 +70,18 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(0, 601, 20)):
+    for m in tqdm(range(0, 1001, 100)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
-        rec, dis, ratio = sol_ineq_hints(m, 3, solution)
+        s_new, rec, dis = sol_ineq_hints(m, solution)
         num_rec.append(round(rec, 1))
         dis_rec.append(round(dis, 2))
-        suc_rat.append(ratio)
 
     num_rec = [float(x) for x in num_rec]
     dis_rec = [float(x) for x in dis_rec]
-    suc_rat = [float(x) for x in suc_rat]
 
     print("num_ine: ", num_ine)
     print("num_rec: ", num_rec)
     print("dis_rec: ", dis_rec)
-    print("suc_rat: ", suc_rat)
 
 
