@@ -5,18 +5,18 @@ from tqdm import tqdm
 
 
 def sol_approx_hints(m, k, solution):
-    ETA = 40
+    ETA = 3
     Sigma = 2
 
-    nb_of_hints = 60
+    nb_of_hints = 1000
     nb_of_unknowns = len(solution)
     # print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/ShaoYan/LWE_80_40/v.txt", 'r') as f:
+    with open("Data/Approximate Hints/secret error/Kyber128/v.txt", 'r') as f:
         lines_v = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_v)
 
-    with open("Data/ShaoYan/LWE_80_40/l.txt", 'r') as g:
+    with open("Data/Approximate Hints/secret error/Kyber128/l.txt", 'r') as g:
         lines_l = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_l)
     # print(b)
@@ -69,11 +69,11 @@ def sol_approx_hints_2_ineq(m, k, solution):
     nb_of_unknowns = len(solution)
     print("nb_of_unknowns", nb_of_unknowns)
 
-    with open("Data/Approximate Hints/secret error/Kyber256/v.txt", 'r') as f:
+    with open("Data/Approximate Hints/secret error/Kyber128/v.txt", 'r') as f:
         lines_V = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_V)
 
-    with open("Data/Approximate Hints/secret error/Kyber256/l.txt", 'r') as g:
+    with open("Data/Approximate Hints/secret error/Kyber128/l.txt", 'r') as g:
         lines_L = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_L)
 
@@ -130,7 +130,7 @@ def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of ine
 
 
 if __name__ == "__main__":
-    with open("Data/ShaoYan/LWE_80_40/es.txt", 'r') as g:
+    with open("Data/Approximate Hints/secret error/Kyber128/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -140,11 +140,11 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(0, 61, 5)):
+    for m in tqdm(range(0, 1001, 200)):
         num_ine.append(m)
         print("\nThe number of approximate hints is", m)
-        rec, dis, ratio = sol_approx_hints(m, 50, solution)
-        # rec, dis, ratio = sol_approx_hints_2_ineq(m, 10, solution)
+        # rec, dis, ratio = sol_approx_hints(m, 10, solution)
+        rec, dis, ratio = sol_approx_hints_2_ineq(m, 1, solution)
         num_rec.append(round(rec, 1))
         dis_rec.append(round(dis, 2))
         suc_rat.append(ratio)

@@ -33,7 +33,6 @@ def Plot_distribution():
     plt.show()
 
 
-
 def sol_approx_hints(m, k, solution):
     ETA = 3
     Sigma = 3.3

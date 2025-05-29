@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 plt.rcParams['font.family'] = 'Times New Roman'
-plt.rcParams['font.size'] = 16
+plt.rcParams['font.size'] = 18
 
 #
 # LWE80_approx_num = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45]
@@ -90,35 +90,35 @@ def plot_LWE80_approx_hint():
 
     # 画图
     plt.figure(figsize=(8, 6))
-    # plt.plot(LWE80_approx_num[mask], np.array(LWE80_approx_emb_est)[mask], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
-    #          linewidth=1, label='Prediction (DDGR20)', color='black')
-    # plt.plot(LWE80_approx_num[mask], np.array(LWE80_approx_com_est)[mask], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-    #          linewidth=1, label='Prediction (Our)', color='black')
+    plt.plot(LWE80_approx_num[mask], np.array(LWE80_approx_emb_est)[mask], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Prediction (DDGR20)', color='black')
+    plt.plot(LWE80_approx_num[mask], np.array(LWE80_approx_com_est)[mask], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Prediction (Our)', color='black')
     # plt.plot(LWE80_approx_num[mask], np.array(LWE80_approx_emb_pra_ave)[mask], 's', markersize=5, markerfacecolor='none', linestyle='dashed',
     #          linewidth=1, label='Experiment (DDGR20)', color='blue')
     # plt.plot(LWE80_approx_num[mask], np.array(LWE80_approx_com_pra_ave)[mask], '*', markersize=5, markerfacecolor='none',
     #          linestyle='dashed',
     #          linewidth=1, label='Experiment (Our)', color='red')
 
-    plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_1[:10], 'x', color='lightblue', label='Single experiment of DDGR20')
+    plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_1[:10], 'x', color='lightblue')#, label='Single experiment of [DDGR20]')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_2[:10], 'x', color='lightblue')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_3[:10], 'x', color='lightblue')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_4[:10], 'x', color='lightblue')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_5[:10], 'x', color='lightblue')
-    plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_ave[:10], 's', markersize=5, markerfacecolor='none', linestyle='dashed', label='Average of DDGR20', color='blue', linewidth=1.5)
+    plt.plot(LWE80_approx_num[:10], LWE80_approx_emb_pra_ave[:10], 's', markersize=5, markerfacecolor='none', linestyle='dashed', label='Average of (DDGR20)', color='blue', linewidth=1.5)
 
     # 绘制我们消元法的实验
-    plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_1[:10], 'x', color='plum', label='Single experiment of Our')
+    plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_1[:10], 'x', color='plum')#, label='Single experiment of Our Attack')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_2[:10], 'x', color='plum')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_3[:10], 'x', color='plum')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_4[:10], 'x', color='plum')
     plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_5[:10], 'x', color='plum')
-    plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_ave[:10], '*', markersize=5, markerfacecolor='none', linestyle='dashed', label='Average of Our', color='red', linewidth=1.5)
+    plt.plot(LWE80_approx_num[:10], LWE80_approx_com_pra_ave[:10], '*', markersize=5, markerfacecolor='none', linestyle='dashed', label='Average of Our Attack', color='red', linewidth=1.5)
 
     # Labels and title
-    plt.xlabel("Number of approximate hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right', fontsize=14)
+    plt.xlabel("Number of approximate hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best', fontsize=16)
 
     plt.show()
     
@@ -135,7 +135,7 @@ def plot_LWE80_ineq_hint():
     LWE80_ine_emb_pra_ave = [49, 40.67, 37.33, 39.33, 34.33, 32, 28, 25, 31.67, 22.67, 27.67]
     LWE80_ine_dis = [28.23, 30.65, 26.02, 20.26, 16.49, 12.11, 9.66, 7.78, 6.78, 4.75, 1.97]
     LWE80_ine_ps = [48.62, 53.91, 45.11, 30.07, 18.51, 7.00, 2.00, 2.00, 2.00, 2.00, 2.00]
-    LWE80_ine_com_est = [47.52, 44.62, 27.58, 15.36, 5.16, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00]
+    LWE80_ine_com_est = [47.42, 38.53, 29.54, 18.00, 10.23, 5.41, 2.00, 2.00, 2.00, 2.00, 2.00]
     LWE80_ine_com_pra_1 = [50, 39, 26, 21, 23, 21, 22, 17, 18, 18, 15]
     LWE80_ine_com_pra_2 = [50, 44, 35, 33, 18, 15, 20, 18, 17, 16, 18]
     LWE80_ine_com_pra_3 = [47, 39, 33, 30, 21, 19, 17, 16, 17, 19, 15]
@@ -148,38 +148,37 @@ def plot_LWE80_ineq_hint():
 
     # 画图
     plt.figure(figsize=(8, 6))
-    # plt.plot(LWE80_ine_num[:11], np.array(LWE80_ine_emb_est)[:11], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
-    #          linewidth=1, label='Prediction (DDGR20)', color='black')
-    # plt.plot(LWE80_ine_num[:11], np.array(LWE80_ine_com_est)[:11], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-    #          linewidth=1, label='Prediction (Our)', color='black')
+    plt.plot(LWE80_ine_num[:8], np.array(LWE80_ine_emb_est)[:8], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Prediction (DGHK23)', color='black')
+    plt.plot(LWE80_ine_num[:8], np.array(LWE80_ine_com_est)[:8], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Prediction (Our)', color='black')
     # plt.plot(LWE80_ine_num[:11], np.array(LWE80_ine_emb_pra)[:11], 's', markersize=5, markerfacecolor='none', linestyle='dashed',
     #          linewidth=1, label='Experiment (DDGR20)', color='blue')
     # plt.plot(LWE80_ine_num[:11], np.array(LWE80_ine_com_pra)[:11], '*', markersize=5, markerfacecolor='none',
     #          linestyle='dashed', linewidth=1, label='Experiment (Our)', color='red')
 
-    plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_1[:8], 'x', color='lightblue', label='Single experiment of DGHK23')
+    plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_1[:8], 'x', color='lightblue')#, label='Single experiment of [DGHK23]')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_2[:8], 'x', color='lightblue')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_3[:8], 'x', color='lightblue')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_4[:8], 'x', color='lightblue')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_5[:8], 'x', color='lightblue')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_emb_pra_ave[:8], 's', markersize=5, markerfacecolor='none',
-             linestyle='dashed', label='Average of DGHK23', color='blue', linewidth=1.5)
+             linestyle='dashed', label='Average of (DGHK23)', color='blue', linewidth=1.5)
 
     # 绘制我们消元法的实验
-    plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_1[:8], 'x', color='plum',
-             label='Single experiment of Our')
+    plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_1[:8], 'x', color='plum')#,label='Single experiment of Our Attack')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_2[:8], 'x', color='plum')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_3[:8], 'x', color='plum')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_4[:8], 'x', color='plum')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_5[:8], 'x', color='plum')
     plt.plot(LWE80_ine_num[:8], LWE80_ine_com_pra_ave[:8], '*', markersize=5, markerfacecolor='none',
-             linestyle='dashed', label='Average of Our', color='red', linewidth=1.5)
+             linestyle='dashed', label='Average of Our Attack', color='red', linewidth=1.5)
 
     # Labels and title
-    plt.ylim(10, 55)
-    plt.xlabel("Number of inequality hints", fontsize=16)
-    plt.ylabel("BKZ-$\\beta$", fontsize=16)
-    plt.legend(loc='upper right', fontsize=14)
+    # plt.ylim(5, 55)
+    plt.xlabel("Number of inequality hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best', fontsize=16)
 
     plt.show()
 
@@ -209,13 +208,13 @@ def plot_Kyber128_approx_hint_LR_PS():
     plt.plot(Kyber128_approx_num[:indices_emb], np.array(Kyber128_approx_emb)[:indices_emb], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
     plt.plot(Kyber128_approx_num[:indices_ps], np.array(Kyber128_approx_ps)[:indices_ps], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
 
     # Labels and title
-    plt.xlabel("Kyber128 Approx Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber128 Approximation Hints")
-    plt.legend()
+    plt.xlabel("Kyber128 Approx Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber128 Approximation Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -238,13 +237,13 @@ def plot_Kyber128_ineq_hint_LR_PS():
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_emb)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction [DDGR20]', color='blue')
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
 
     # Labels and title
-    plt.xlabel("Kyber128 ineq Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber128 ineq Hints")
-    plt.legend()
+    plt.xlabel("Kyber128 ineq Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber128 ineq Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -266,13 +265,13 @@ def plot_Kyber128_perfect_hint_LR_PS():
     plt.plot(Kyber128_perfect_num[:indices_LR], np.array(Kyber128_perfect_emb)[:indices_LR], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction [DDGR20]', color='blue')
     plt.plot(Kyber128_perfect_num[:indices_PS], np.array(Kyber128_perfect_ps)[:indices_PS], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
 
     # Labels and title
-    plt.xlabel("Kyber128 perfect Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber128 perfect Hints")
-    plt.legend()
+    plt.xlabel("Kyber128 perfect Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber128 perfect Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -302,15 +301,15 @@ def plot_Kyber128_approx_hint_Com():
     plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_emb)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
     plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
     plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_com)[:indices], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
     # Labels and title
-    plt.xlabel("Number of approximate hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of approximate hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -337,15 +336,15 @@ def plot_Kyber128_ineq_hint_Com():
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_emb)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_ps)[:indices], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
     # Labels and title
-    plt.xlabel("Number of inequality hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of inequality hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -359,23 +358,24 @@ def plot_Kyber128_perfect_hint_Com():
 
     # 只取横坐标在200及以下的值
     Kyber128_perfect_num = np.array(Kyber128_perfect_num)
-    indices = np.max(np.nonzero(Kyber128_perfect_num <= 40)[0])
+    indices1 = np.max(np.nonzero(Kyber128_perfect_num <= 200)[0])
+    indices2 = np.max(np.nonzero(Kyber128_perfect_num <= 45)[0])
 
 
     # 画图
     plt.figure(figsize=(8, 6))
-    plt.plot(Kyber128_perfect_num[:indices], np.array(Kyber128_perfect_emb)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
+    plt.plot(Kyber128_perfect_num[:indices2], np.array(Kyber128_perfect_emb)[:indices2], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
-    plt.plot(Kyber128_perfect_num[:indices], np.array(Kyber128_perfect_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
-    plt.plot(Kyber128_perfect_num[:indices], np.array(Kyber128_perfect_com)[:indices], 's', markersize=5,
+    plt.plot(Kyber128_perfect_num[:indices1], np.array(Kyber128_perfect_ps)[:indices1], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='Probabilistic Inference', color='green')
+    plt.plot(Kyber128_perfect_num[:indices2], np.array(Kyber128_perfect_com)[:indices2], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
     # Labels and title
-    plt.xlabel("Number of perfect hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of perfect hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -392,15 +392,15 @@ def plot_Kyber128_approx_hint_Com_BP():
     # 画图
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_bp)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='BP [19]', color='green')
+             linewidth=1, label='BP [HSMP24]', color='green')
     plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_com_bp)[:indices], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Our Results 2', color='red')
+             linewidth=1, label='Combinatorial Attack 2', color='red')
 
     # Labels and title
-    plt.xlabel("Number of approximate hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of approximate hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -418,43 +418,44 @@ def plot_Kyber128_ineq_hint_Com_BP():
     # 画图
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='BP [19]', color='green')
+             linewidth=1, label='BP [HSMP24]', color='green')
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp_HMS23)[:indices], 'v', markersize=5,
              markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='HMS23 [17]', color='blue')
+             linewidth=1, label='Combined attack [HMS+23]', color='blue')
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_bp)[:indices], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Our Results 2', color='red')
+             linewidth=1, label='Combinatorial Attack 2', color='red')
 
     # Labels and title
-    plt.xlabel("Number of inequality hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of inequality hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
 
 def plot_Kyber128_per_hint_Com_BP():
-    Kyber128_ineq_num = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
-    Kyber128_ineq_bp = [50.58, 50.58, 50.58, 50.58, 50.58, 50.36, 50.20, 49.69, 49.62, 49.35, 49.17]
+    Kyber128_ineq_num = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 100, 150, 200, 250, 300]
+    Kyber128_ineq_bp = [50.58, 50.58, 50.58, 50.58, 50.58, 50.36, 50.20, 49.69, 49.62, 49.35, 49.17, 43.38,	38.27, 25.19, 15.62, 2]
     Kyber128_ineq_com_bp = [50.58, 41.88, 33.52, 22.53, 14.89, 9.59, 6.04, 3.33, 2.00, 2.00, 2.00]
 
     # 只取横坐标在200及以下的值
     Kyber128_ineq_num = np.array(Kyber128_ineq_num)
-    indices = np.max(np.nonzero(Kyber128_ineq_num <= 46)[0])
+    indices1 = np.max(np.nonzero(Kyber128_ineq_num <= 300)[0])
+    indices2 = np.max(np.nonzero(Kyber128_ineq_num <= 46)[0])
 
     # 画图
     plt.figure(figsize=(8, 6))
-    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='BP [19]', color='green')
-    plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_com_bp)[:indices], 's', markersize=5,
+    plt.plot(Kyber128_ineq_num[:indices1], np.array(Kyber128_ineq_bp)[:indices1], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
+             linewidth=1, label='BP [HSMP24]', color='green')
+    plt.plot(Kyber128_ineq_num[:indices2], np.array(Kyber128_ineq_com_bp)[:indices2], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Our Results 2', color='red')
+             linewidth=1, label='Combinatorial Attack 2', color='red')
 
     # Labels and title
-    plt.xlabel("Number of perfect hints", fontsize=20)
-    plt.ylabel("BKZ-$\\beta$", fontsize=20)
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of perfect hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -475,13 +476,13 @@ def plot_Kyber128_modular_hint_LR_PS():
     plt.plot(Kyber128_modular_num[:indices_LR], np.array(Kyber128_modular_emb)[:indices_LR], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction [DDGR20]', color='blue')
     plt.plot(Kyber128_modular_num[:indices_PS], np.array(Kyber128_modular_ps)[:indices_PS], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
 
     # Labels and title
-    plt.xlabel("Kyber128 modular Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber128 modular Hints")
-    plt.legend()
+    plt.xlabel("Kyber128 modular Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber128 modular Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -506,13 +507,13 @@ def plot_Kyber128_approx_hint_dis():
     # 画图
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber128_approx_num[:indices], np.array(Kyber128_approx_dis)[:indices],
-             linewidth=1, label='Probabilistic Statistic', color='blue')
+             linewidth=1, label='Probabilistic Inference', color='blue')
 
     # Labels and title
-    plt.xlabel("Num of approximate hints", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.ylabel(r"Norm($\tilde{s}-s$)", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.title("The distance between guessed value with the secret key for LWE_128 ", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.legend(prop={'size': 14})
+    plt.xlabel("Num of approximate hints", fontsize=22)
+    plt.ylabel(r"Norm($\tilde{s}-s$)", fontsize=22)
+    plt.title("The distance between guessed value with the secret key for LWE_128 ", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -560,9 +561,9 @@ def plot_Kyber128_LR():
 
 
     # Labels and title
-    plt.xlabel("Number of hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -607,10 +608,10 @@ def plot_Kyber128_PS():
              linewidth=1, label='Modular hints', color='orange')
 
     # Labels and title
-    plt.xlabel("Kyber128 ineq Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber128 ineq Hints")
-    plt.legend()
+    plt.xlabel("Kyber128 ineq Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber128 ineq Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -628,14 +629,13 @@ def plot_Kyber128_ineq_hint_dis():
     # 画图
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_dis)[:indices],
-             linewidth=1, label='Probabilistic Statistic', color='blue')
+             linewidth=1, label='Probabilistic Inference', color='blue')
 
     # Labels and title
-    plt.xlabel("Num of inequality hints", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.ylabel(r"Norm($\tilde{s}-s$)", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.title("The distance between guessed value with the secret key for LWE_128 ",
-              fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.legend(prop={'size': 14})
+    plt.xlabel("Num of inequality hints", fontsize=22)
+    plt.ylabel(r"Norm($\tilde{s}-s$)", fontsize=22)
+    plt.title("The distance between guessed value with the secret key for LWE_128 ", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -654,14 +654,13 @@ def plot_Kyber128_perfect_hint_dis():
     # 画图
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber128_perfect_num[:indices], np.array(Kyber128_perfect_dis)[:indices],
-             linewidth=1, label='Probabilistic Statistic', color='blue')
+             linewidth=1, label='Probabilistic Inference', color='blue')
 
     # Labels and title
-    plt.xlabel("Num of perfect hints", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.ylabel(r"Norm($\tilde{s}-s$)", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.title("The distance between guessed value with the secret key for LWE_128 ",
-              fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.legend(prop={'size': 14})
+    plt.xlabel("Num of perfect hints", fontsize=22)
+    plt.ylabel(r"Norm($\tilde{s}-s$)", fontsize=22)
+    plt.title("The distance between guessed value with the secret key for LWE_128 ", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -692,9 +691,10 @@ def plot_Kyber128_ps_dis():
              linestyle='dashed',
              linewidth=1, label='Perfect hints', color='red')
     # Labels and title
-    plt.xlabel("Number of hints")
-    plt.ylabel("Norm($\\tilde{s}-s$)")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of hints", fontsize=22)
+    # plt.ylabel("Norm($\\tilde{s}-s$)", fontsize=22)
+    plt.ylabel("$\|s-\\tilde{s}\|$", fontsize=22)
+    plt.legend(loc='best')
 
 
     plt.show()
@@ -728,7 +728,7 @@ def plot_Kyber128_ineq_hint_Comparision():
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_lr)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
-    # plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed', linewidth=1, label='Probabilistic Statistic', color='green')
+    # plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed', linewidth=1, label='Probabilistic Inference', color='green')
     # plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_bp)[:indices], '^', markersize=5, markerfacecolor='none', linestyle='dashed', linewidth=1, label='Belief Propagation', color='orange')
     plt.plot(Kyber128_ineq_num[:indices], np.array(Kyber128_ineq_hms23)[:indices], 's', markersize=5,
              markerfacecolor='none', linestyle='dashed',
@@ -739,9 +739,9 @@ def plot_Kyber128_ineq_hint_Comparision():
              linewidth=1, label='Combined with BP', color='red')
 
     # Labels and title
-    plt.xlabel("Number of inequality hints")
-    plt.ylabel("BKZ-$\\beta$")
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of inequality hints", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -764,10 +764,10 @@ def plot_Kyber80_lr_dis():
 
 
     # Labels and title
-    plt.xlabel("Num of LWE hints", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.ylabel(r"Norm($\tilde{s}-s$)", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.title("The distance between guessed value and the secret key for LWE_80 with BKZ_β=8", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.legend(prop={'size': 14})
+    plt.xlabel("Num of LWE hints", fontsize=22)
+    plt.ylabel(r"Norm($\tilde{s}-s$)", fontsize=22)
+    plt.title("The distance between guessed value and the secret key for LWE_80 with BKZ_β=8", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -789,10 +789,10 @@ def plot_Kyber128_lr_dis():
 
 
     # Labels and title
-    plt.xlabel("Num of LWE hints", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.ylabel(r"Norm($\tilde{s}-s$)", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.title("The distance between guessed value and the secret key for LWE_80 with BKZ_β=8", fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.legend(prop={'size': 14})
+    plt.xlabel("Num of LWE hints", fontsize=22)
+    plt.ylabel(r"Norm($\tilde{s}-s$)", fontsize=22)
+    plt.title("The distance between guessed value and the secret key for LWE_80 with BKZ_β=8", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -821,15 +821,15 @@ def plot_Kyber256_approx_hint():
     plt.plot(Kyber256_approx_num[mask], np.array(Kyber256_approx_emb)[mask], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction [DDGR20]', color='blue')
     plt.plot(Kyber256_approx_num[mask], np.array(Kyber256_approx_ps)[mask], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
     plt.plot(Kyber256_approx_num[mask], np.array(Kyber256_approx_com)[mask], 's', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
     # Labels and title
-    plt.xlabel("Kyber256 Approx Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber256 Approximation Hints")
-    plt.legend()
+    plt.xlabel("Kyber256 Approx Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber256 Approximation Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -858,15 +858,15 @@ def plot_Kyber256_perfect_hint():
     plt.plot(Kyber256_perfect_num[:indices], np.array(Kyber256_perfect_emb)[:indices], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction [DDGR20]', color='blue')
     plt.plot(Kyber256_perfect_num[:indices], np.array(Kyber256_perfect_ps)[:indices], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
     plt.plot(Kyber256_perfect_num[:indices], np.array(Kyber256_perfect_com)[:indices], 's', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
     # Labels and title
-    plt.xlabel("Kyber256 perfect Num")
-    plt.ylabel("Values")
-    plt.title("Comparison of Kyber256 perfect Hints")
-    plt.legend()
+    plt.xlabel("Kyber256 perfect Num", fontsize=22)
+    plt.ylabel("Values", fontsize=22)
+    plt.title("Comparison of Kyber256 perfect Hints", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -884,22 +884,22 @@ def plot_Kyber512_dfa_hint():
 
     # 只取横坐标在800及以下的值
     Kyber512_dfa_num = np.array(Kyber512_dfa_num)
-    mask = Kyber512_dfa_num <= 205
+    mask = Kyber512_dfa_num <= 120
 
     # 画图
     plt.figure(figsize=(8, 6))
     plt.plot(Kyber512_dfa_num[mask], np.array(Kyber512_dfa_emb)[mask], 'v', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
     plt.plot(Kyber512_dfa_num[mask], np.array(Kyber512_dfa_ps)[mask], 'o', markersize=5, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Probabilistic Statistic', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
     plt.plot(Kyber512_dfa_num[mask], np.array(Kyber512_dfa_com)[mask], 's', markersize=5, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
 
     # Labels and title
-    plt.xlabel("Number of inequality hints", fontsize=20)
-    plt.ylabel("BKZ-$\\beta$", fontsize=20)
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of decryption failures", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -920,14 +920,14 @@ def plot_Kyber512_sca_hint():
     plt.plot(Kyber512_sca_num[mask], np.array(Kyber512_sca_emb)[mask], 'v', markersize=3, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Lattice Reduction', color='blue')
     plt.plot(Kyber512_sca_num[mask], np.array(Kyber512_sca_ps)[mask], 'o', markersize=3, markerfacecolor='none', linestyle='dashed',
-             linewidth=1, label='Belief Propagation', color='green')
+             linewidth=1, label='Probabilistic Inference', color='green')
     plt.plot(Kyber512_sca_num[mask], np.array(Kyber512_sca_com)[mask], 's', markersize=3, markerfacecolor='none', linestyle='dashed',
              linewidth=1, label='Combinatorial Attack', color='red')
 
     # Labels and title
-    plt.xlabel("Number of approximate hints", fontsize=20)
-    plt.ylabel("BKZ-$\\beta$", fontsize=20)
-    plt.legend(loc='upper right')
+    plt.xlabel("Number of side-channel approximate equations", fontsize=22)
+    plt.ylabel("BKZ-$\\beta$", fontsize=22)
+    plt.legend(loc='best')
 
     plt.show()
 
@@ -969,10 +969,10 @@ def coe_ine_512():
     plt.text(1, 514, 'y = 512', color='red', verticalalignment='bottom', fontsize=14)
 
     # 添加坐标轴标签
-    plt.xlabel('num of failures', fontdict={'family': 'Times New Roman', 'size': 14})
-    plt.ylabel('recovered coefficients', fontdict={'family': 'Times New Roman', 'size': 14})
+    plt.xlabel('num of failures', fontsize=22)
+    plt.ylabel('recovered coefficients', fontsize=22)
 
-    plt.legend(prop={'size': 12})
+    plt.legend(loc='best')
     plt.show()
 
 
@@ -985,10 +985,9 @@ if __name__ == '__main__':
     # plot_Kyber128_ps_dis()
 
     # Section 5 Performance of Combinatorial Attack on LWE with Hints
-    # plot_Kyber128_approx_hint_Com()
-    # plot_Kyber128_ineq_hint_Com()
-    # plot_Kyber128_perfect_hint_Com()
-    # plot_Kyber128_ineq_hint_Comparision()
+    plot_Kyber128_approx_hint_Com()
+    plot_Kyber128_ineq_hint_Com()
+    plot_Kyber128_perfect_hint_Com()
 
     # plot_Kyber128_approx_hint_Com_BP()
     # plot_Kyber128_ineq_hint_Com_BP()
@@ -998,7 +997,7 @@ if __name__ == '__main__':
     # plot_LWE80_approx_hint()
     # plot_LWE80_ineq_hint()
     # plot_Kyber512_dfa_hint()
-    plot_Kyber512_sca_hint()
+    # plot_Kyber512_sca_hint()
 
 
     #plot_Kyber128_LR()
