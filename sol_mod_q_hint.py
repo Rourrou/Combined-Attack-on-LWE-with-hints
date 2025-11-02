@@ -145,11 +145,11 @@ def sol_mod_q_hints(m, q, k, solution):
     nb_of_unknowns = len(solution)
     print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/Modular Hints/Mod_q/secret error/Kyber128/v.txt", 'r') as f:
+    with open("Data/Modular Hints/Mod_q/secret error/Kyber768/v.txt", 'r') as f:
         lines_V = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_V)
 
-    with open("Data/Modular Hints/Mod_q/secret error/Kyber128/l.txt", 'r') as g:
+    with open("Data/Modular Hints/Mod_q/secret error/Kyber768/l.txt", 'r') as g:
         lines_L = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_L)
     # print(b)
@@ -201,7 +201,7 @@ def sol_mod_q_hints(m, q, k, solution):
 
 if __name__ == "__main__":
     q = 3329
-    with open("Data/Modular Hints/Mod_q/secret error/Kyber128/es.txt", 'r') as g:
+    with open("Data/Modular Hints/Mod_q/secret error/Kyber768/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(600, 651, 100)):
+    for m in tqdm(range(600, 2551, 400)):
         num_hints.append(m)
         print("\nThe number of mod_q hints is", m)
         sol_mod_q_hints(m, q, 1, solution)

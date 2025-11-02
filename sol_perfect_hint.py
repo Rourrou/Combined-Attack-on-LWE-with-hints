@@ -6,16 +6,16 @@ from tqdm import tqdm
 
 # solving the secret error perfect hints of Kyber
 def sol_perfect_hints(m, k, solution):
-    ETA = 40
+    ETA = 3
     nb_of_hints = 1000
     nb_of_unknowns = len(solution)
     # print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/Perfect Hints/secret error/LWE_80/v.txt", 'r') as f:
+    with open("Data/Perfect Hints/secret error/Kyber128/v.txt", 'r') as f:
         lines_V = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_V)
 
-    with open("Data/Perfect Hints/secret error/LWE_80/l.txt", 'r') as g:
+    with open("Data/Perfect Hints/secret error/Kyber128/l.txt", 'r') as g:
         lines_L = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_L)
     # print(b)
@@ -63,7 +63,7 @@ def sol_perfect_hints(m, k, solution):
 
 
 if __name__ == "__main__":
-    with open("Data/Perfect Hints/secret error/LWE_80/es.txt", 'r') as g:
+    with open("Data/Perfect Hints/secret error/Kyber128/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(20, 401, 20)):
+    for m in tqdm(range(20, 401, 50)):
         num_hint.append(m)
         print("\nThe number of perfect hints is", m)
         rec, dis, ratio = sol_perfect_hints(m, 50, solution)

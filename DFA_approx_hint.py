@@ -2,6 +2,7 @@ import random
 import solver
 import numpy as np
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 plt.rcParams['font.family'] = 'Times New Roman'
 plt.rcParams['font.size'] = 14
 
@@ -9,10 +10,10 @@ plt.rcParams['font.size'] = 14
 def Plot_distribution():
     Value = []
     Sub = []
-    solution = np.loadtxt('Data/DFA/es.txt', dtype=int)
+    solution = np.loadtxt('Data/DFA/Kyber768/es.txt', dtype=int)
     nb_of_hints = 5000
     q = int(3329/4)
-    with open("Data/DFA/v.txt", 'r') as f:
+    with open("Data/DFA/Kyber768/v.txt", 'r') as f:
         lines_v = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_v)
     for i in range(len(V)):
@@ -23,7 +24,7 @@ def Plot_distribution():
     # Create histogram
     plt.hist(Value, bins=30, color='lightblue', edgecolor='black', alpha=0.7)
     plt.axvline(x=832, color='r', linestyle='--')
-    plt.axvline(x=850, color='b', linestyle='--')
+    plt.axvline(x=840, color='b', linestyle='--')
     plt.text(832, -38, 'q/4', color='red', ha='center', va='bottom', fontsize=14)
 
     # 设置标题和标签
@@ -36,16 +37,17 @@ def Plot_distribution():
 def sol_approx_hints(m, k, solution):
     ETA = 3
     Sigma = 3.3
+    bias = 3*Sigma
 
     nb_of_hints = 1000
     nb_of_unknowns = len(solution)
     # print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/DFA/v.txt", 'r') as f:
+    with open("Data/DFA/Kyber512/v.txt", 'r') as f:
         lines_v = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_v)
 
-    with open("Data/DFA/l.txt", 'r') as g:
+    with open("Data/DFA/Kyber512/l.txt", 'r') as g:
         lines_l = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_l)
     # print(b)
@@ -54,10 +56,11 @@ def sol_approx_hints(m, k, solution):
         E_int = [0] * nb_of_unknowns
         nb_correct = np.count_nonzero(solution == E_int)
         print("The average recovered coefficients with %d approximate hints is %d" % (m, nb_correct))
-        # short_vector = np.concatenate((np.array(E_int - solution), np.array([1])))
+        short_vector = np.concatenate((np.array(E_int - solution), np.array([1])))
         short_vector = np.array(E_int - solution)
         distance = np.linalg.norm(short_vector)
         distance = np.round(distance, 2)
+        print("The average distance with %d approximate hints is %f" % (m, distance))
         return nb_correct, distance, 0
 
     rec_num = []
@@ -72,7 +75,7 @@ def sol_approx_hints(m, k, solution):
         L_selected = np.array([L[j] for j in indices])
 
         # 恢复私钥
-        s, n, d = solver.solve_approx_hints_Del22(ETA, Sigma, V_selected, L_selected, solution=solution, so_flag=None)
+        s, n, d = solver.solve_sca_approx_hints_Del22(ETA, bias, V_selected, L_selected, solution=solution, so_flag=None)
         rec_num.append(n)
         rec_dis.append(d)
         if n == nb_of_unknowns:
@@ -97,7 +100,7 @@ def evaluate_inequalities_fast(v, l, solution):  # evaluate the direction of ine
 if __name__ == "__main__":
     # nb_of_hints = 5000
     # q = 3329
-    # solution = np.loadtxt('Data/DFA/es.txt', dtype=int)
+    # solution = np.loadtxt('Data/DFA/Kyber512/es.txt', dtype=int)
     # print("solution", solution)
     #
     # num_ine = []

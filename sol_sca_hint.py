@@ -5,19 +5,19 @@ from tqdm import tqdm
 
 
 def sol_approx_hints(m, k, solution):
-    ETA = 3
+    ETA = 2
     q = 3329
-    bias = int(q/32)
+    bias = int(q/64)  # q/32 for Kyber512 and 768； q/64 for Kyber1024
 
     nb_of_hints = 10000
     nb_of_unknowns = len(solution)
     # print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/SCA/Kyber512/v.txt", 'r') as f:
+    with open("Data/SCA/Kyber768/v.txt", 'r') as f:
         lines_v = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_v)
 
-    with open("Data/SCA/Kyber512/l.txt", 'r') as g:
+    with open("Data/SCA/Kyber768/l.txt", 'r') as g:
         lines_l = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_l)
     # print(b)
@@ -64,7 +64,7 @@ def sol_approx_hints(m, k, solution):
 
 
 if __name__ == "__main__":
-    with open("Data/SCA/Kyber512/es.txt", 'r') as g:
+    with open("Data/SCA/Kyber768/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -74,10 +74,10 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(1040, 2001, 40)):
+    for m in tqdm(range(0, 2001, 40)):
         num_ine.append(m)
         print("\nThe number of sca approximate hints is", m)
-        rec, dis, ratio = sol_approx_hints(m, 50, solution)
+        rec, dis, ratio = sol_approx_hints(m, 10, solution)
         num_rec.append(round(rec, 1))
         dis_rec.append(round(dis, 2))
         suc_rat.append(ratio)

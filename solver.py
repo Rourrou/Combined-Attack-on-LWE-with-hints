@@ -148,15 +148,15 @@ def solve_ineq_hints_del22(eta, a, b, is_geq_zero, max_nb_of_iterations=20, solu
             break
     print("count", count)
     # print("guess", np.array(guess))
-    # short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
-    short_vector = np.array(guess - solution)
+    short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
+    # short_vector = np.array(guess - solution)
     distance = np.linalg.norm(short_vector)
     distance = np.round(distance, 2)
     print("distance", distance)
     return guess, nb_correct, distance
 
 
-def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution=None, so_flag=None):
+def solve_approx_hints_Del22(eta, bias, V, L, max_nb_of_iterations=20, solution=None, so_flag=None):
     # if so_flag:
     #     print("Solving secret only approximate hints...")
     # else:
@@ -169,7 +169,7 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
     nb_of_values = 2 * eta + 1
     x = np.arange(-eta, eta + 1, dtype=np.int8)
     x_pmf = binom.pmf(x + eta, 2 * eta, 0.5)
-    print("x_pmf: ", x_pmf)
+    # print("x_pmf: ", x_pmf)
     x_pmf = np.repeat(x_pmf.reshape(1, -1), nb_of_unknowns, axis=0)
 
     V = V.astype(np.int16)
@@ -182,7 +182,7 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
         mean = np.matmul(x_pmf, x)  # 计算当前分布下，所有未知数的期望值
         variance = np.matmul(x_pmf, np.square(x)) - np.square(mean)
         mean = np.multiply(V, np.repeat(mean[np.newaxis, :], nb_of_hints, axis=0))
-        print("mean",mean)
+        # print("mean",mean)
         variance = np.multiply(V_squared, np.repeat(variance[np.newaxis, :], nb_of_hints, axis=0))
         mean = mean.sum(axis=1).reshape(-1, 1).repeat(nb_of_unknowns, axis=1) - mean  # 减去自身
         mean -= L[:, np.newaxis]
@@ -191,8 +191,8 @@ def solve_approx_hints_Del22(eta, sigma, V, L, max_nb_of_iterations=20, solution
         psuccess = np.zeros((nb_of_values, nb_of_hints, nb_of_unknowns), dtype=float)
         for j in range(nb_of_values):
             # 求解连续高斯分布中某个点值的概率
-            zscore_pos = np.divide(V * x[j] + mean + 3*sigma, np.sqrt(variance))
-            zscore_neg = np.divide(V * x[j] + mean - 3*sigma, np.sqrt(variance))
+            zscore_pos = np.divide(V * x[j] + mean + bias, np.sqrt(variance))
+            zscore_neg = np.divide(V * x[j] + mean - bias, np.sqrt(variance))
             psuccess[j, :, :] = norm.cdf(zscore_pos) - norm.cdf(zscore_neg)  # central limit theorem
 
         psuccess = np.transpose(psuccess, axes=[2, 0, 1])
@@ -304,11 +304,11 @@ def solve_sca_approx_hints_Del22(eta, bias, V, L, max_nb_of_iterations=20, solut
             break
 
     # print("count", count)
-    print("nb_correct", count[z])
+    # print("nb_correct", count[z])
     # print("guess", np.array(guess))
     # short_vector = np.concatenate((np.array(guess - solution), np.array([1])))
     short_vector = np.array(guess - solution)
     distance = np.linalg.norm(short_vector)
     distance = np.round(distance, 2)
-    print("distance", distance)
+    # print("distance", distance)
     return guess, count[z], distance

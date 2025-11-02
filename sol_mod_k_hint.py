@@ -10,6 +10,7 @@ def sol_perfect_hints_with_prob(eta, V, L, P, solution, max_nb_of_iterations=15)
 
     V = np.array(V)
     [nb_of_hints, nb_of_unknowns] = V.shape
+    P = np.array(P, dtype=float).reshape(-1)
     guess = np.zeros(nb_of_unknowns, dtype=int)  # creat an initial guess of the solution with all values set to zero
     if nb_of_hints == 0:
         return guess
@@ -41,9 +42,10 @@ def sol_perfect_hints_with_prob(eta, V, L, P, solution, max_nb_of_iterations=15)
             # zscore_neg = np.divide(a * x[j] + mean + 0.5 - 100, np.sqrt(variance))
             # psuccess[j, :, :] = norm.cdf(zscore_pos) - norm.cdf(zscore_neg)  # central limit theorem
             # SMY：连续分布无法计算d=zscore的概率，使用cdf(zscore+1)-cdf(zscore-1)
-            zscore = np.divide(-V * x[j] - mean, np.sqrt(variance))
+            # zscore = np.divide(-V * x[j] - mean, np.sqrt(variance))
+            zscore = np.divide(V * x[j] + mean + 0.5, np.sqrt(variance))
             # print("zscore", zscore)
-            psuccess[j, :, :] = (norm.cdf(zscore + 0.5) - norm.cdf(zscore - 0.5)) * P[j]  # Kyber128:0.5; Kyber256:1; Kyber512。
+            psuccess[j, :, :] = (norm.cdf(zscore + 0.5) - norm.cdf(zscore - 0.5)) * P[:, np.newaxis]  # Kyber128:0.5; Kyber256:1; Kyber512。
         # print("psuccess[, 0, 0]",psuccess[:, 0, 0])
 
         psuccess = np.transpose(psuccess, axes=[2, 0, 1])
@@ -104,7 +106,7 @@ def mod2perf(V, L, eta, q):
     variance = np.clip(variance, 1, None)
     #print("variance",variance)
 
-    low_prob = 50e-2
+    low_prob = 10e-4
     V_ext = []
     L_ext = []
     P_ext = []
@@ -138,21 +140,26 @@ def mod2perf(V, L, eta, q):
                     L_ext.append(q * start + L[i])
                     P_ext.append(prob_r)
             start += 1
+    # print("\nV_ext", V_ext)
+    # print("\nL_ext", L_ext)
+    # print("\nP_ext", P_ext)
 
     return V_ext, L_ext, P_ext
 
 
-def sol_mod_q_hints(m, q, k, solution):
+def sol_mod_k_hints(m, q, k, solution):
     ETA = 3
     nb_of_hints = 2000
     nb_of_unknowns = len(solution)
     print("The number of unknowns", nb_of_unknowns)
 
-    with open("Data/Modular Hints/Mod_k/secret error/Kyber128/k50/v.txt", 'r') as f:
+    with open("Data/Modular Hints/Mod_k/secret error/Kyber128/k3301/uni60/v.txt", 'r') as f:
+    # with open("Data/Modular Hints/Mod_k/secret error/Kyber768/v.txt", 'r') as f:
         lines_V = [next(f) for _ in range(nb_of_hints)]
     V = np.loadtxt(lines_V)
 
-    with open("Data/Modular Hints/Mod_k/secret error/Kyber128/k50/l.txt", 'r') as g:
+    with open("Data/Modular Hints/Mod_k/secret error/Kyber128/k3301/uni60/l.txt", 'r') as g:
+    # with open("Data/Modular Hints/Mod_k/secret error/Kyber768/l.txt", 'r') as g:
         lines_L = [next(g) for _ in range(nb_of_hints)]
     L = np.loadtxt(lines_L)
     # print(b)
@@ -203,8 +210,9 @@ def sol_mod_q_hints(m, q, k, solution):
 
 
 if __name__ == "__main__":
-    k = 50
-    with open("Data/Modular Hints/Mod_k/secret error/Kyber128/k50/es.txt", 'r') as g:
+    k = 3301
+    with open("Data/Modular Hints/Mod_k/secret error/Kyber128/k3301/uni60/es.txt", 'r') as g:
+    # with open("Data/Modular Hints/Mod_k/secret error/Kyber768/es.txt", 'r') as g:
         solution = g.readlines()
     solution = np.array([int(x) for x in solution[0].split()])
     print("solution", solution)
@@ -214,10 +222,10 @@ if __name__ == "__main__":
     dis_rec = []
     suc_rat = []
 
-    for m in tqdm(range(800, 801, 100)):
+    for m in tqdm(range(820, 901, 20)):
         num_hints.append(m)
         print("\nThe number of mod_q hints is", m)
-        rec, dis, ratio = sol_mod_q_hints(m, k, 1, solution)
+        rec, dis, ratio = sol_mod_k_hints(m, k, 20, solution)
         num_rec.append(round(rec, 1))
         dis_rec.append(round(dis, 2))
         suc_rat.append(ratio)
